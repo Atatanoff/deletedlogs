@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>VIC Deleted Files Search</title>
+    <style>
+        h1 {
+            color: blue;
+        }
+        th, td {
+            padding: 8px;
+            color: green;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>VIC Deleted Files Search</h1>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+    <table>
+        {{ form }}
+    </table>
+    <br>
+    <input type="submit" value="Search" >
+</form>
+<br>
+{%if page_obj%}
+<table>
+    <thead>
+        <tr style="text-align: center;">
+            <th>Server</th>
+            <th>File Name</th>
+            <th>Time</th>
+            <th>User Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in page_obj %}
+            <tr>
+                <td>{{ data.server }}</td>
+                <td>{{ data.file_name }}</td>
+                <td>{{ data.dt_time }}</td>
+                <td>{{ data.user_name }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{%endif%}
+<!-- <nav>
+    <ul>
+        {% for p in page_obj.paginator.page_range %}
+        <li>
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>     -->
+
+</body>
+</html>

@@ -12,11 +12,35 @@
             padding: 8px;
             color: green;
         }
-        
+                /* Стилизация ссылки */
+        a {
+            
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+
+        }
+
+        /* Стилизация ссылки при наведении курсора */
+        a:hover {
+            background-color: #3e8e41;
+        }
+        div {
+            display: block;
+            position: absolute;
+            top: 5%;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>VIC Deleted Files Search</h1>
+    <div>{{user.username}}  |  <a href="{% url 'users:logout' %}">Выход</a></div>
+    
     <hr>
     <form method="POST">
         {% csrf_token %}
@@ -58,6 +82,21 @@
         {% endfor %}
     </ul>
 </nav>     -->
-
+<script>
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+  
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+        )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+    
+    // do the work...
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+      const table = th.closest('table');
+      const tbody = table.querySelector('tbody');
+      Array.from(tbody.querySelectorAll('tr'))
+        .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+        .forEach(tr => tbody.appendChild(tr) );
+    })));
+  </script>
 </body>
 </html>
